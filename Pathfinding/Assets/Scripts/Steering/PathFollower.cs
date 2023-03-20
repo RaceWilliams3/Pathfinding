@@ -12,16 +12,18 @@ public class PathFollower : Kinematic
 
     public float waypointDetectRange;
 
-    public Graph graph;
+    public Graph graph = new Graph();
     public Node startNode;
     public Node endNode;
 
-    void Start()
+    void Awake()
     {
+        graph.Build();
+        targets = getTargetList();
+
         myMoveType = new Seek();
         myMoveType.character = this;
         myMoveType.target = targets[targetIndex];
-
     }
 
     protected override void Update()
@@ -45,11 +47,18 @@ public class PathFollower : Kinematic
         base.Update();
     }
 
-    /*private GameObject[] getTargetList()
+    private GameObject[] getTargetList()
     {
-        private List<Connection> connections = Dijkstra.pathfind(graph, startNode, endNode);
-        private List<Node> nodeList = new List<Node>();
-        
-        //foreach(Connection c in connections)
-    }*/
+        GameObject[] targetList;
+        List<Connection> connections = Dijkstra.pathfind(graph, startNode, endNode);
+        targetList = new GameObject[connections.Count + 1];
+        for (int i = 0; i < connections.Count; i++)
+        {
+            targetList[i] = connections[i].getFromNode().gameObject;
+        }
+        targetList[0] = startNode.gameObject;
+        targetList[connections.Count] = endNode.gameObject;
+
+        return targetList;
+    }
 }
