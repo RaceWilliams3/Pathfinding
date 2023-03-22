@@ -26,6 +26,8 @@ public class Graph
         Node[] nodes = GameObject.FindObjectsOfType<Node>();
         foreach (Node fromNode in nodes)
         {
+            fromNode.FindConnections();
+
             foreach (Node toNode in fromNode.ConnectsTo)
             {
                 //Line to modify rule for cost, right now cost is just distance.
