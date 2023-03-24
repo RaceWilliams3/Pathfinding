@@ -31,7 +31,15 @@ public class Graph
             foreach (Node toNode in fromNode.ConnectsTo)
             {
                 //Line to modify rule for cost, right now cost is just distance.
-                float cost = (toNode.transform.position - fromNode.transform.position).magnitude;
+                float cost = 0f;
+                if (toNode.redNode == true)
+                {
+                    cost = (toNode.transform.position - fromNode.transform.position).magnitude * 1000000;
+                }
+                else
+                {
+                    cost = (toNode.transform.position - fromNode.transform.position).magnitude;
+                }
                 Connection c = new Connection(cost, fromNode, toNode);
                 mConnections.Add(c);
             }

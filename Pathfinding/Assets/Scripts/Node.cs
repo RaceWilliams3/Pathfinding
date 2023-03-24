@@ -10,6 +10,12 @@ public class Node : MonoBehaviour
     public bool autoConnect;
     public int autoConnectNum;
 
+    public bool redNode;
+    public float redChance;
+
+    public Material red;
+    public Material blue;
+
     private void OnDrawGizmos()
     {
         foreach (Node n in ConnectsTo)
@@ -52,6 +58,20 @@ public class Node : MonoBehaviour
                 closestDist = 10000;
                 closestNode = null;
             }
+        }
+    }
+
+    private void Awake()
+    {
+        if (Random.Range(0f, 100f) < redChance)
+        {
+            redNode = true;
+            GetComponent<Renderer>().material = red;
+        }
+        else
+        {
+            redNode = false;
+            GetComponent<Renderer>().material = blue;
         }
     }
 }
